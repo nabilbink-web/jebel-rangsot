@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jebel Rangsot – Kacang Mete Organik Khas Lombok Utara</title>
+  <meta name="description" content="Jebel Rangsot: kacang mete organik, nikmat, berdaya. Oleh-oleh khas Lombok dari Dusun Rangsot, Sigar Penjalin, Lombok Utara.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          choco: { 900: '#3A1511', 800: '#4E1F19', 700: '#632B22', 600: '#7A3A2E' },
+          mete: { 50: '#FFF8E6', 100: '#FDEDBF', 300: '#F7CD6B', 400: '#F2B33D', 500: '#E59E1F' },
+          cabe: { 500: '#C8312B', 600: '#A8231F' },
+          daun: { 500: '#4E8A3A', 600: '#3C6E2C' }
+        },
+        fontFamily: { display: ['Fredoka', 'sans-serif'], body: ['Nunito', 'sans-serif'] }
+      } }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; }
+    h1, h2, h3, h4, .font-display { font-family: 'Fredoka', sans-serif; }
+    .hero-bg { background: radial-gradient(ellipse at 80% 20%, #632B22 0%, #3A1511 70%); }
+    .pouch { clip-path: polygon(0 4%, 6% 0, 94% 0, 100% 4%, 100% 100%, 0 100%); }
+    .wave { display: block; width: 100%; height: 48px; }
+    .nut-photo { background: radial-gradient(circle at 30% 20%, #FDEDBF, #F2B33D 60%, #E59E1F); }
+    #cart-panel { transition: transform .3s ease; }
+    #cart-modal.hidden-modal { pointer-events: none; background: transparent; }
+    #cart-modal.hidden-modal #cart-panel { transform: translateX(100%); }
+    #toast { transition: opacity .25s, transform .25s; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+    :focus-visible { outline: 3px solid #F2B33D; outline-offset: 2px; }
+
+    /* ===== Animasi & ornamen jebel ===== */
+    @keyframes sway { 0%,100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+    .sway { transform-origin: top center; animation: sway 4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    .bob { animation: bob 5s ease-in-out infinite; }
+    .bounce { animation: bob 1.6s ease-in-out infinite; }
+    @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+    #atas .grid > div:first-child > * { animation: rise .8s cubic-bezier(.2,.8,.2,1) both; }
+    #atas .grid > div:first-child > :nth-child(2) { animation-delay: .15s; }
+    #atas .grid > div:first-child > :nth-child(3) { animation-delay: .3s; }
+    #atas .grid > div:first-child > :nth-child(4) { animation-delay: .45s; }
+    #atas .grid > div:first-child > :nth-child(5) { animation-delay: .6s; }
+    @keyframes fall { 0% { transform: translateY(-90px) rotate(0); } 100% { transform: translateY(760px) rotate(360deg); } }
+    .fall { position: absolute; top: 0; opacity: .5; animation: fall linear infinite; }
+    @keyframes spin360 { to { transform: rotate(360deg); } }
+    .spin-slow { animation: spin360 50s linear infinite; }
+    @keyframes popin { 0% { transform: scale(.6); opacity: 0; } 70% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+    .pop { animation: popin .55s cubic-bezier(.2,.9,.3,1.2) both; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+    @keyframes jiggle { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-28deg) scale(1.12); } 75% { transform: rotate(28deg) scale(1.12); } }
+    .tapped { animation: jiggle .6s !important; }
+    @keyframes badge { 0% { transform: scale(1); } 40% { transform: scale(1.7); } 100% { transform: scale(1); } }
+    .badge-pop { animation: badge .4s; }
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease, box-shadow .3s; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; }
+      .fall { display: none; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body class="bg-mete-50 text-choco-900 antialiased min-h-screen flex flex-col">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs><linearGradient id="gj" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8402F"/><stop offset=".6" stop-color="#F2762E"/><stop offset="1" stop-color="#F7CD6B"/></linearGradient></defs>
+    <symbol id="jebel" viewBox="0 0 60 100">
+      <rect x="28" y="0" width="4" height="12" rx="2" fill="#4E8A3A"/>
+      <path d="M30 9C48 9 55 30 51 50C48 66 39 73 30 73C21 73 12 66 9 50C5 30 12 9 30 9Z" fill="url(#gj)"/>
+      <ellipse cx="21" cy="30" rx="5" ry="11" fill="#fff" opacity=".3" transform="rotate(12 21 30)"/>
+      <path d="M24 70C20 86 34 99 45 89C51 82 43 71 35 69Z" fill="#7C8F4A"/>
+      <path d="M27 73C29 82 36 88 42 88" stroke="#5B6B32" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="daun" viewBox="0 0 60 40"><path d="M2 20C14 2 40 -2 58 20C40 42 14 40 2 20Z" fill="#4E8A3A"/><path d="M6 20H54" stroke="#3C6E2C" stroke-width="2"/></symbol>
+  </svg>
+
+  <!-- Pop up sambutan -->
+  <div id="welcome" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-choco-900/70 p-4" role="dialog" aria-modal="true" aria-labelledby="w-title" onclick="if(event.target===this)closeWelcome()">
+    <div class="pop relative bg-mete-50 rounded-3xl max-w-sm w-full text-center p-8 shadow-2xl overflow-hidden">
+      <svg class="sway absolute -top-1 left-5 w-8 h-12" aria-hidden="true"><use href="#jebel"/></svg>
+      <svg class="sway absolute -top-1 right-5 w-8 h-12" style="--d:.7s" aria-hidden="true"><use href="#jebel"/></svg>
+      <svg class="bounce mx-auto w-20 h-32" aria-hidden="true"><use href="#jebel"/></svg>
+      <h2 id="w-title" class="font-display text-3xl font-bold text-choco-800 mt-2">Selamat datang di Rangsot!</h2>
+      <p class="text-choco-600 mt-2 text-sm leading-relaxed">Kacang mete organik dari jambu mete Lombok Utara. Silakan pilih rasa favoritmu.</p>
+      <button onclick="closeWelcome()" class="mt-6 bg-cabe-500 text-white font-bold px-7 py-3 rounded-full hover:bg-cabe-600 transition">Mulai belanja</button>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="bg-choco-900 text-mete-50 sticky top-0 z-20 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
+      <a href="#atas" class="flex items-center gap-2.5">
+        <span class="w-10 h-10 rounded-full bg-mete-400 text-choco-900 flex items-center justify-center text-xl">🌰</span>
+        <span class="font-display text-xl font-bold leading-none">Rangsot<span class="block text-[11px] font-body font-semibold text-mete-300 tracking-wide mt-0.5">Cashew Nuts · Lombok Utara</span></span>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 text-sm font-bold text-mete-100">
+        <a href="#katalog" class="hover:text-mete-400">Produk</a>
+        <a href="#cerita" class="hover:text-mete-400">Cerita Rangsot</a>
+        <a href="#pesan" class="hover:text-mete-400">Cara Pesan</a>
+      </nav>
+      <button onclick="toggleCart()" aria-label="Buka keranjang" class="relative px-4 py-2.5 bg-mete-400 text-choco-900 rounded-full font-bold text-sm hover:bg-mete-300 transition">
+        🛒 Keranjang
+        <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-cabe-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="atas" class="hero-bg text-mete-50 relative overflow-hidden">
+    <div class="relative z-10 max-w-6xl mx-auto px-4 pt-24 pb-20 md:pt-24 md:pb-28 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="inline-block bg-cabe-500 text-white text-sm font-bold px-4 py-1.5 rounded-full mb-5">Oleh-oleh khas Lombok</p>
+        <h2 class="font-display text-5xl md:text-7xl font-bold leading-[1.02]">Jebel <span class="text-white">Rangsot</span></h2>
+        <p class="font-display text-2xl md:text-3xl text-mete-400 mt-3">Organik, nikmat, berdaya.</p>
+        <p class="mt-5 text-mete-100 max-w-md leading-relaxed">Kacang mete pilihan dari Dusun Rangsot, Sigar Penjalin, Lombok Utara. Diolah warga setempat, dipesan langsung lewat WhatsApp.</p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#katalog" class="bg-mete-400 text-choco-900 font-bold px-6 py-3 rounded-full hover:bg-mete-300 transition">Lihat produk</a>
+          <a href="#cerita" class="border-2 border-mete-300 text-mete-100 font-bold px-6 py-3 rounded-full hover:bg-choco-700 transition">Kenali Rangsot</a>
+        </div>
+      </div>
+
+      <!-- Kemasan pouch -->
+      <div class="bob flex justify-center md:justify-end">
+        <div class="relative w-64 md:w-72 rotate-3 hover:rotate-0 transition-transform duration-500">
+          <svg class="sway absolute -left-8 top-10 w-10 h-16 z-10" style="--d:.3s" aria-hidden="true"><use href="#jebel"/></svg>
+          <svg class="sway absolute -right-7 bottom-24 w-12 h-20 z-10" style="--d:1.2s" aria-hidden="true"><use href="#jebel"/></svg>
+          <div class="pouch bg-mete-400 rounded-b-3xl shadow-2xl overflow-hidden">
+            <div class="px-5 pt-7 pb-4 text-center text-choco-900">
+              <p class="text-2xl leading-none">🍎🍃</p>
+            </div>
+            <div class="bg-choco-800 text-center px-4 pt-6 pb-7">
+              <p class="font-display text-5xl font-bold text-white leading-none">Jebel</p>
+              <p class="font-display text-5xl font-bold text-white leading-none mt-1">Rangsot</p>
+              <p class="text-[11px] font-bold text-mete-100 mt-2">Cashew Nuts</p>
+            </div>
+            <div class="bg-cabe-500 text-mete-300 text-center font-display font-semibold text-sm py-2">Organik, Nikmat, Berdaya</div>
+            <div class="nut-photo px-4 pt-6 pb-5 text-center">
+              <p class="text-7xl leading-none">🥜</p>
+              <div class="mt-4 text-left text-[11px] font-bold text-choco-800 leading-5">
+                <p class="font-display text-sm">Varian rasa</p>
+                <p>Original Fried Cashew</p><p>Sweet &amp; Spicy</p><p>Original Roasted</p><p>Salted &amp; Roasted</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hang sway absolute top-0 left-2 md:left-10 z-10 cursor-pointer" onclick="jebelTap(this)" title="Sentuh aku">
+      <span class="block mx-auto w-px h-6 bg-daun-500"></span><svg class="w-10 h-16" aria-hidden="true"><use href="#jebel"/></svg>
+    </div>
+    <div class="hang sway absolute top-0 right-3 md:right-12 z-10 cursor-pointer" style="--d:1.4s" onclick="jebelTap(this)" title="Sentuh aku">
+      <span class="block mx-auto w-px h-8 bg-daun-500"></span><svg class="w-12 h-[4.5rem]" aria-hidden="true"><use href="#jebel"/></svg>
+    </div>
+    <svg class="wave absolute bottom-0 left-0" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true"><path d="M0,24 C240,56 480,0 720,24 C960,48 1200,8 1440,28 L1440,48 L0,48 Z" fill="#FFF8E6"/></svg>
+  </section>
+
+  <!-- Keunggulan -->
+  <section id="unggul" class="max-w-6xl mx-auto px-4 -mt-2 pt-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-sm font-bold">
+      <div class="bg-white rounded-2xl py-4 px-3 border border-mete-300">🌱<span class="block mt-1">Mete organik</span></div>
+      <div class="bg-white rounded-2xl py-4 px-3 border border-mete-300">🏝️<span class="block mt-1">Asli Lombok Utara</span></div>
+      <div class="bg-white rounded-2xl py-4 px-3 border border-mete-300">✅<span class="block mt-1">Berizin P-IRT</span></div>
+      <div class="bg-white rounded-2xl py-4 px-3 border border-mete-300">🤝<span class="block mt-1">Memberdayakan warga</span></div>
+    </div>
+  </section>
+
+  <div class="bg-cabe-500 text-mete-100 overflow-hidden py-2.5 mt-10 font-display font-semibold text-lg" aria-hidden="true"><div class="marquee-track"><span class="flex items-center gap-6 pr-6 whitespace-nowrap"><span>Organik</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg><span>Nikmat</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg><span>Berdaya</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg><span>Oleh-oleh khas Lombok</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg></span><span class="flex items-center gap-6 pr-6 whitespace-nowrap"><span>Organik</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg><span>Nikmat</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg><span>Berdaya</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg><span>Oleh-oleh khas Lombok</span><svg class="w-4 h-6" aria-hidden="true"><use href="#jebel"/></svg></span></div></div>
+
+  <!-- Katalog -->
+  <main id="katalog" class="relative max-w-6xl mx-auto px-4 py-12 flex-1 w-full">
+    <div class="sway absolute top-0 right-4 pointer-events-none hidden md:block" style="--d:.6s" aria-hidden="true"><span class="block mx-auto w-px h-4 bg-daun-500"></span><svg class="w-8 h-12"><use href="#jebel"/></svg></div>
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+      <div>
+        <h3 class="font-display text-3xl md:text-4xl font-bold text-choco-800">Pilih camilan favoritmu</h3>
+        <p class="text-choco-600 mt-1">Stok dan harga selalu mengikuti data terbaru dari Google Sheets.</p>
+      </div>
+      <input id="search" type="search" placeholder="Cari produk atau rasa" oninput="applyFilter()" class="w-full md:w-72 bg-white border-2 border-mete-300 rounded-full px-5 py-2.5 text-sm focus:border-choco-700 outline-none">
+    </div>
+
+    <div id="filters" class="flex flex-wrap gap-2 mb-8"></div>
+
+    <div id="product-loading" class="text-center py-16 text-choco-600">
+      <div class="inline-block animate-spin text-3xl mb-3">⏳</div>
+      <p class="font-bold">Memuat katalog produk dari Google Sheets...</p>
+    </div>
+
+    <p id="empty-msg" class="hidden text-center py-12 text-choco-600 font-bold">Produk tidak ditemukan. Coba kata kunci atau kategori lain.</p>
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
+    <p id="demo-note" class="hidden mt-6 text-center text-xs text-choco-600">Menampilkan produk contoh. Isi <code>API_URL</code> di bagian script untuk memakai data Google Sheets.</p>
+  </main>
+
+  <!-- Cerita -->
+  <section id="cerita" class="relative overflow-hidden bg-choco-800 text-mete-50">
+    <svg class="spin-slow absolute -left-10 -bottom-12 w-44 h-72 opacity-10 pointer-events-none" aria-hidden="true"><use href="#jebel"/></svg>
+    <svg class="spin-slow absolute -right-8 -top-14 w-36 h-60 opacity-10 pointer-events-none" aria-hidden="true"><use href="#jebel"/></svg>
+    <div class="relative max-w-6xl mx-auto px-4 py-14 grid md:grid-cols-5 gap-10">
+      <div class="md:col-span-3">
+        <h3 class="font-display text-3xl md:text-4xl font-bold text-mete-400">Dari Dusun Rangsot, untuk Lombok</h3>
+        <p class="mt-4 text-mete-100 leading-relaxed max-w-prose">Produk Rangsot lahir dari program pemberdayaan masyarakat pasca gempa NTB binaan YBM PLN di Dusun Rangsot, Desa Sigar Penjalin, Kecamatan Tanjung, Lombok Utara. Setiap kemasan membantu warga terus berkarya dan membangun kembali penghidupan.</p>
+        <p class="mt-3 text-mete-100 leading-relaxed max-w-prose">Bahan yang dipakai sederhana: mete organik, garam, gula pasir, minyak goreng, dan penyedap rasa. Tanpa embel-embel, rasanya renyah dan gurih.</p>
+        <p class="mt-5 text-sm text-mete-300 font-semibold">Mitra: Lombok Eco International Connection (LEIC) · YBM PLN</p>
+      </div>
+      <div class="md:col-span-2 grid grid-cols-2 gap-3 self-start">
+        <div class="bg-choco-700 rounded-3xl p-5"><p class="font-display text-3xl text-mete-400">4</p><p class="text-sm text-mete-100 mt-1">varian rasa kacang mete</p></div>
+        <div class="bg-choco-700 rounded-xl p-5"><p class="font-display text-3xl text-mete-400">100%</p><p class="text-sm text-mete-100 mt-1">produk Indonesia</p></div>
+        <div class="bg-choco-700 rounded-xl p-5 col-span-2"><p class="font-display text-xl text-mete-400">Baca basmalah sebelum makan</p><p class="text-sm text-mete-100 mt-1">Pesan yang tertulis di setiap kemasan Jebel Rangsot.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cara pesan -->
+  <section id="pesan" class="max-w-6xl mx-auto px-4 py-14">
+    <h3 class="font-display text-3xl font-bold text-choco-800 mb-6">Cara pesan</h3>
+    <ol class="grid md:grid-cols-4 gap-4 text-sm">
+      <li class="bg-white border border-mete-300 rounded-2xl p-5"><span class="font-display text-2xl text-cabe-500">1</span><p class="mt-1 font-bold">Pilih produk</p><p class="text-choco-600">Tambahkan rasa favoritmu ke keranjang.</p></li>
+      <li class="bg-white border border-mete-300 rounded-2xl p-5"><span class="font-display text-2xl text-cabe-500">2</span><p class="mt-1 font-bold">Isi data pengiriman</p><p class="text-choco-600">Nama, nomor WhatsApp, dan alamat lengkap.</p></li>
+      <li class="bg-white border border-mete-300 rounded-2xl p-5"><span class="font-display text-2xl text-cabe-500">3</span><p class="mt-1 font-bold">Kirim lewat WhatsApp</p><p class="text-choco-600">Pesanan otomatis tersusun rapi dengan nomor invoice.</p></li>
+      <li class="bg-white border border-mete-300 rounded-2xl p-5"><span class="font-display text-2xl text-cabe-500">4</span><p class="mt-1 font-bold">Bayar dan terima</p><p class="text-choco-600">Admin mengirim nomor rekening dan ongkir.</p></li>
+    </ol>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-choco-900 text-mete-100 py-10 text-sm">
+    <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-6">
+      <div>
+        <p class="font-display text-xl text-mete-400">Rangsot</p>
+        <p class="mt-2 text-mete-100/80">Dusun Rangsot, Desa Sigar Penjalin, Kecamatan Tanjung, Lombok Utara.</p>
+      </div>
+      <div>
+        <p class="font-bold text-mete-300">Informasi pemesanan</p>
+        <p class="mt-2">WhatsApp: <a class="underline" id="wa-link" href="#" target="_blank" rel="noopener">0877 3009 3074</a></p>
+        <p>Instagram: @DesaCahayaRangsot · @rangsot_nature</p>
+      </div>
+      <div class="md:text-right">
+        <p>© 2026 Toko Kreatif Mahasiswa. All rights reserved.</p>
+        <p class="mt-1 font-bold text-mete-400">Powered by wahyuramadhan.com</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 pointer-events-none z-40 bg-choco-900 text-mete-50 text-sm font-bold px-5 py-3 rounded-full shadow-xl"></div>
+
+  <!-- Drawer Keranjang -->
+  <div id="cart-modal" class="hidden-modal fixed inset-0 bg-black/50 z-30 flex justify-end" onclick="if(event.target===this)toggleCart()">
+    <div id="cart-panel" class="bg-mete-50 w-full max-w-md h-full flex flex-col p-6 shadow-2xl overflow-y-auto">
+      <div class="flex justify-between items-center pb-4 border-b border-mete-300">
+        <h4 class="text-xl font-bold text-choco-800">Keranjang belanja</h4>
+        <button onclick="toggleCart()" aria-label="Tutup keranjang" class="text-choco-600 hover:text-choco-900 text-3xl leading-none">&times;</button>
+      </div>
+
+      <div id="cart-items" class="flex-1 py-4 space-y-3 overflow-y-auto"></div>
+
+      <div class="border-t border-mete-300 pt-4 space-y-4">
+        <div class="flex justify-between text-lg font-bold text-choco-800">
+          <span>Total pembayaran</span>
+          <span id="cart-total" class="text-cabe-500">Rp 0</span>
+        </div>
+
+        <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-3">
+          <div>
+            <label for="cust-name" class="block text-xs font-bold text-choco-600 mb-1">Nama lengkap pembeli</label>
+            <input type="text" id="cust-name" required class="w-full bg-white border border-mete-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-mete-400 outline-none" placeholder="Contoh: Budi Santoso">
+          </div>
+          <div>
+            <label for="cust-phone" class="block text-xs font-bold text-choco-600 mb-1">Nomor WhatsApp aktif</label>
+            <input type="tel" id="cust-phone" required class="w-full bg-white border border-mete-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-mete-400 outline-none" placeholder="Contoh: 081234567890">
+          </div>
+          <div>
+            <label for="cust-address" class="block text-xs font-bold text-choco-600 mb-1">Alamat lengkap pengiriman</label>
+            <textarea id="cust-address" required class="w-full bg-white border border-mete-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-mete-400 outline-none" rows="2" placeholder="Jalan, nomor rumah, kelurahan, kecamatan, kota"></textarea>
+          </div>
+          <button type="submit" id="btn-submit" class="w-full bg-daun-500 text-white font-bold py-3 rounded-xl hover:bg-daun-600 transition shadow-md">
+            Beli sekarang via WhatsApp 📲
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. Masukkan URL Apps Script Anda (/exec) dan nomor WhatsApp admin di bawah ini:
+    const API_URL = "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DISINI";
+    const WA_ADMIN = "6287730093074"; // Format: 628xxxxxxxxxx (awalan 62)
+
+    // Data contoh dipakai bila API_URL belum diisi atau gagal dimuat.
+    // Kolom "foto" boleh diisi path gambar, misalnya "images/jebel-original.jpg".
+    const DEMO_PRODUCTS = [
+      { id: 1, nama: "Jebel Rangsot Original Fried Cashew", kategori: "Kacang Mete", deskripsi: "Mete organik goreng original, renyah dan gurih. Kemasan zip 160 gram.", harga: 37000, stok: 40, foto: "" },
+      { id: 2, nama: "Jebel Rangsot Sweet & Spicy", kategori: "Kacang Mete", deskripsi: "Perpaduan manis dan pedas yang bikin ketagihan.", harga: 37000, stok: 30, foto: "" },
+      { id: 3, nama: "Jebel Rangsot Original Roasted", kategori: "Kacang Mete", deskripsi: "Mete panggang original dengan rasa alami.", harga: 37000, stok: 25, foto: "" },
+      { id: 4, nama: "Jebel Rangsot Salted & Roasted", kategori: "Kacang Mete", deskripsi: "Mete panggang dengan taburan garam yang pas.", harga: 37000, stok: 25, foto: "" },
+      { id: 5, nama: "Paket Oleh-oleh 4 Varian", kategori: "Paket", deskripsi: "Satu kemasan dari setiap varian rasa Jebel Rangsot.", harga: 140000, stok: 15, foto: "" }
+    ];
+
+    let products = [];
+    let cart = [];
+    let activeCat = "Semua";
+
+    const rp = n => "Rp " + Number(n || 0).toLocaleString("id-ID");
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    document.getElementById("wa-link").href = "https://wa.me/" + WA_ADMIN;
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.remove("opacity-0", "translate-y-4");
+      clearTimeout(showToast.tm);
+      showToast.tm = setTimeout(() => t.classList.add("opacity-0", "translate-y-4"), 1800);
+    }
+
+    function saveCart() { try { localStorage.setItem("rangsot_cart", JSON.stringify(cart)); } catch (e) {} }
+    function restoreCart() {
+      try { cart = JSON.parse(localStorage.getItem("rangsot_cart") || "[]"); } catch (e) { cart = []; }
+      updateCartUI();
+    }
+
+    async function loadProducts() {
+      let demo = false;
+      try {
+        if (!API_URL || API_URL.startsWith("MASUKKAN")) throw new Error("API belum diisi");
+        const res = await fetch(API_URL);
+        const json = await res.json();
+        products = json.data;
+      } catch (err) {
+        products = DEMO_PRODUCTS;
+        demo = true;
+      }
+      document.getElementById("demo-note").classList.toggle("hidden", !demo);
+      buildFilters();
+      applyFilter();
+      document.getElementById("product-loading").classList.add("hidden");
+    }
+
+    function buildFilters() {
+      const cats = ["Semua", ...new Set(products.map(p => p.kategori || "Umum"))];
+      document.getElementById("filters").innerHTML = cats.map(c =>
+        `<button onclick="setCat('${esc(c).replace(/'/g, "\\'")}')" data-cat="${esc(c)}" class="cat-btn px-4 py-2 rounded-full text-sm font-bold border-2 transition ${c === activeCat ? "bg-choco-800 text-mete-50 border-choco-800" : "bg-white text-choco-700 border-mete-300 hover:border-choco-700"}">${esc(c)}</button>`
+      ).join("");
+    }
+
+    function setCat(c) { activeCat = c; buildFilters(); applyFilter(); }
+
+    function applyFilter() {
+      const q = document.getElementById("search").value.trim().toLowerCase();
+      const list = products.filter(p =>
+        (activeCat === "Semua" || (p.kategori || "Umum") === activeCat) &&
+        (!q || (p.nama + " " + (p.deskripsi || "")).toLowerCase().includes(q))
+      );
+      renderProducts(list);
+      observeReveals();
+    }
+
+    function renderProducts(list) {
+      const grid = document.getElementById("product-grid");
+      document.getElementById("empty-msg").classList.toggle("hidden", list.length > 0);
+      grid.classList.toggle("hidden", list.length === 0);
+      grid.innerHTML = list.map(p => {
+        const habis = Number(p.stok || 0) <= 0;
+        const foto = p.foto
+          ? `<img src="${esc(p.foto)}" class="h-52 w-full object-cover" alt="${esc(p.nama)}" loading="lazy" onerror="this.outerHTML='<div class=\\'nut-photo h-52 flex items-center justify-center text-7xl\\'>🥜</div>'">`
+          : `<div class="nut-photo h-52 flex items-center justify-center text-7xl">🥜</div>`;
+        return `
+          <article class="reveal bg-white border border-mete-300 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col">
+            ${foto}
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold bg-mete-100 text-choco-700 px-3 py-1 rounded-full">${esc(p.kategori || "Umum")}</span>
+                <h4 class="font-bold text-choco-900 text-lg mt-3 leading-snug">${esc(p.nama)}</h4>
+                <p class="text-sm text-choco-600 mt-1">${esc(p.deskripsi || "")}</p>
+                <p class="text-xs text-choco-600 mt-2">Sisa stok: <strong class="${habis ? "text-cabe-500" : "text-daun-600"}">${habis ? "Habis" : Number(p.stok)}</strong></p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-mete-100 flex items-center justify-between gap-2">
+                <span class="font-display font-bold text-cabe-500 text-xl">${rp(p.harga)}</span>
+                <button onclick="addToCart(${Number(p.id)})" ${habis ? "disabled" : ""} class="bg-choco-800 text-mete-50 text-sm font-bold px-4 py-2 rounded-full hover:bg-choco-700 transition disabled:opacity-40 disabled:cursor-not-allowed">${habis ? "Habis" : "+ Keranjang"}</button>
+              </div>
+            </div>
+          </article>`;
+      }).join("");
+    }
+
+    function addToCart(id) {
+      const prod = products.find(p => p.id == id);
+      if (!prod) return;
+      const exist = cart.find(item => item.id == id);
+      const max = Number(prod.stok || 0);
+      if (exist) {
+        if (max && exist.qty >= max) return showToast("Stok " + prod.nama + " hanya " + max);
+        exist.qty += 1;
+      } else {
+        cart.push({ ...prod, qty: 1 });
+      }
+      updateCartUI();
+      showToast("Ditambahkan ke keranjang 🛒");
+      const b = document.getElementById("cart-count"); b.classList.remove("badge-pop"); void b.offsetWidth; b.classList.add("badge-pop");
+    }
+
+    function changeQty(idx, d) {
+      const item = cart[idx];
+      const max = Number(item.stok || 0);
+      const next = item.qty + d;
+      if (next <= 0) cart.splice(idx, 1);
+      else if (max && next > max) return showToast("Stok hanya " + max);
+      else item.qty = next;
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      document.getElementById("cart-count").innerText = cart.reduce((acc, i) => acc + i.qty, 0);
+      const container = document.getElementById("cart-items");
+      let total = 0;
+      if (!cart.length) {
+        container.innerHTML = `<p class="text-center text-choco-600 py-10">Keranjangmu masih kosong.<br>Pilih camilan dari katalog dulu.</p>`;
+      } else {
+        container.innerHTML = cart.map((item, idx) => {
+          total += item.harga * item.qty;
+          return `
+            <div class="flex justify-between items-center bg-white p-3 rounded-xl text-sm border border-mete-300 gap-3">
+              <div class="min-w-0">
+                <p class="font-bold text-choco-900">${esc(item.nama)}</p>
+                <p class="text-xs text-choco-600">${rp(item.harga)} × ${item.qty} = <strong>${rp(item.harga * item.qty)}</strong></p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button onclick="changeQty(${idx}, -1)" aria-label="Kurangi" class="w-7 h-7 rounded-full bg-mete-100 font-bold hover:bg-mete-300">−</button>
+                <span class="w-5 text-center font-bold">${item.qty}</span>
+                <button onclick="changeQty(${idx}, 1)" aria-label="Tambah" class="w-7 h-7 rounded-full bg-mete-100 font-bold hover:bg-mete-300">+</button>
+                <button onclick="cart.splice(${idx}, 1); updateCartUI()" class="text-cabe-500 hover:text-cabe-600 text-xs font-bold ml-1">Hapus</button>
+              </div>
+            </div>`;
+        }).join("");
+      }
+      document.getElementById("cart-total").innerText = rp(total);
+      saveCart();
+    }
+
+    function toggleCart() {
+      document.getElementById("cart-modal").classList.toggle("hidden-modal");
+    }
+
+    async function handleCheckout(e) {
+      e.preventDefault();
+      if (cart.length === 0) return alert("Keranjang belanja Anda masih kosong!");
+
+      const btn = document.getElementById("btn-submit");
+      btn.innerText = "Mencatat pesanan...";
+      btn.disabled = true;
+
+      const invoiceCode = "INV-" + Date.now().toString().slice(-6);
+      const payload = {
+        nama: document.getElementById("cust-name").value,
+        whatsapp: document.getElementById("cust-phone").value,
+        alamat: document.getElementById("cust-address").value,
+        items: cart,
+        total: cart.reduce((acc, i) => acc + (i.harga * i.qty), 0)
+      };
+
+      try {
+        // Kirim pesanan ke Google Sheets melalui Apps Script (dilewati bila API belum diisi)
+        if (API_URL && !API_URL.startsWith("MASUKKAN")) {
+          fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        // Susun format pesan rapi untuk WhatsApp
+        let textWA = `Halo Admin, saya ingin konfirmasi pesanan:\n\n`;
+        textWA += `🧾 *Invoice: ${invoiceCode}*\n`;
+        textWA += `👤 *Nama:* ${payload.nama}\n`;
+        textWA += `📱 *No. WA:* ${payload.whatsapp}\n`;
+        textWA += `📍 *Alamat:* ${payload.alamat}\n\n`;
+        textWA += `🛍️ *Daftar Belanja:* \n`;
+        payload.items.forEach(i => {
+          textWA += `• ${i.nama} (${i.qty}x) = ${rp(i.harga * i.qty)}\n`;
+        });
+        textWA += `\n💰 *Total Pembayaran: ${rp(payload.total)}*\n\n`;
+        textWA += `Mohon info nomor rekening dan total ongkirnya. Terima kasih!`;
+
+        // Buka WhatsApp Admin di tab baru
+        window.open(`https://wa.me/${WA_ADMIN}?text=${encodeURIComponent(textWA)}`, "_blank");
+
+        // Reset keranjang belanja
+        cart = [];
+        updateCartUI();
+        toggleCart();
+        e.target.reset();
+      } catch (err) {
+        alert("Gagal memproses pesanan. Silakan coba kembali.");
+      } finally {
+        btn.innerText = "Beli sekarang via WhatsApp 📲";
+        btn.disabled = false;
+      }
+    }
+
+    // ===== Animasi & interaksi =====
+    (function () {
+      const hero = document.getElementById("atas");
+      const layer = document.createElement("div");
+      layer.className = "absolute inset-0 overflow-hidden pointer-events-none";
+      layer.setAttribute("aria-hidden", "true");
+      for (let i = 0; i < 10; i++) {
+        const apple = i % 3 !== 2;
+        const w = apple ? 20 + Math.random() * 22 : 24 + Math.random() * 16;
+        layer.insertAdjacentHTML("beforeend",
+          `<svg class="fall" style="left:${Math.random() * 96}%;width:${w}px;height:${apple ? w * 1.66 : w * 0.66}px;animation-duration:${9 + Math.random() * 9}s;animation-delay:-${Math.random() * 14}s"><use href="#${apple ? "jebel" : "daun"}"/></svg>`);
+      }
+      hero.prepend(layer);
+    })();
+
+    function jebelTap(el) {
+      el.classList.remove("tapped"); void el.offsetWidth; el.classList.add("tapped");
+      showToast("Jebel Rangsot: organik, nikmat, berdaya! 🍎");
+      setTimeout(() => el.classList.remove("tapped"), 650);
+    }
+
+    function closeWelcome() {
+      const w = document.getElementById("welcome");
+      w.classList.add("hidden");
+      try { sessionStorage.setItem("welcomed", "1"); } catch (e) {}
+    }
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeWelcome(); });
+    (function () {
+      let seen = false;
+      try { seen = sessionStorage.getItem("welcomed"); } catch (e) {}
+      if (!seen) setTimeout(() => document.getElementById("welcome").classList.remove("hidden"), 600);
+    })();
+
+    let io;
+    function observeReveals() {
+      const els = document.querySelectorAll(".reveal:not(.in)");
+      if (!("IntersectionObserver" in window)) { els.forEach(e => e.classList.add("in")); return; }
+      io = io || new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in"); io.unobserve(e.target);
+          setTimeout(() => { e.target.style.transitionDelay = ""; }, 1000);
+        }
+      }), { threshold: 0.12 });
+      els.forEach((e, i) => { e.style.transitionDelay = (i % 3) * 90 + "ms"; io.observe(e); });
+    }
+    document.querySelectorAll("#unggul .grid > div, #cerita .grid .grid > div, #pesan li").forEach(e => e.classList.add("reveal"));
+    observeReveals();
+
+    restoreCart();
+    loadProducts();
+  </script>
+</body>
+</html>
